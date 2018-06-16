@@ -40,40 +40,46 @@ class SocioController extends Controller
 
 
         $socioObj = $req->input("socio");
-        // Dados da Pessoa
-        
-        $nome = $socioObj['pessoa']['nome'];
-        $comoChamar = $socioObj['pessoa']['comoChamar'];
-        $sexo = $socioObj['pessoa']['sexo'];
-        $cpf = $socioObj['pessoa']['cpf'];
-        $email = $socioObj['pessoa']['email'];
-        $dataNascimento = $socioObj['pessoa']['dataNascimento'];
 
-        // Dados do Socio
-        $dataAdesao = $socioObj['dataAdesao'];
-        $valorContribuicao = $socioObj['valorContribuicao'];
-        $vencimentoContribuicao = $socioObj['vencimentoContribuicao'];
-        $metodoContribuicao = $socioObj['metodoContribuicao'];
+        try {
 
-        $pessoa = new Pessoa();
-        
-        $pessoa->nome = $nome;
-        $pessoa->como_chamar = $comoChamar;
-        $pessoa->sexo = $sexo;
-        $pessoa->cpf = $cpf;
-        $pessoa->email = $email;
-        $pessoa->data_nasc = $dataNascimento;
+            // Dados da Pessoa
+            $nome = $socioObj['pessoa']['nome'];
+            $comoChamar = $socioObj['pessoa']['comoChamar'];
+            $sexo = $socioObj['pessoa']['sexo'];
+            $cpf = $socioObj['pessoa']['cpf'];
+            $email = $socioObj['pessoa']['email'];
+            $dataNascimento = $socioObj['pessoa']['dataNascimento'];
 
-        $pessoa->save();
+            // Dados do Socio
+            $dataAdesao = $socioObj['dataAdesao'];
+            $valorContribuicao = $socioObj['valorContribuicao'];
+            $vencimentoContribuicao = $socioObj['vencimentoContribuicao'];
+            $metodoContribuicao = $socioObj['metodoContribuicao'];
 
-        $socio = new Socio();
-        $socio->data_adesao = $dataAdesao;
-        $socio->valor_contrib = $valorContribuicao;
-        $socio->venc_contrib = $vencimentoContribuicao;
-        $socio->metodo_contrib = $metodoContribuicao;
-        $socio->id_pessoa = $pessoa->id;
+            $pessoa = new Pessoa();
 
-        $socio->save();
+            $pessoa->nome = $nome;
+            $pessoa->como_chamar = $comoChamar;
+            $pessoa->sexo = $sexo;
+            $pessoa->cpf = $cpf;
+            $pessoa->email = $email;
+            $pessoa->data_nasc = $dataNascimento;
+
+            $pessoa->save();
+
+            $socio = new Socio();
+            $socio->data_adesao = $dataAdesao;
+            $socio->valor_contrib = $valorContribuicao;
+            $socio->venc_contrib = $vencimentoContribuicao;
+            $socio->metodo_contrib = $metodoContribuicao;
+            $socio->id_pessoa = $pessoa->id;
+
+            $socio->save();
+
+        } catch (\Exception $e) {
+            throw new \Exception("Erro ao salvar associação", 500);
+        }
 
     }
 
